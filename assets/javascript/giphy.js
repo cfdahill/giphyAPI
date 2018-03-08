@@ -17,46 +17,38 @@
 
 var topics = ["hockey", "san jose sharks", "star wars", "ghostbusters", "dogs", "beer"];
 
-$(document).ready(function () {
-
-    //create buttons from the topics array
-    for (i = 0; i < topics.length; i++) {
-        var but = $("<button>")
-        but.attr("data-name", topics[i]);
-        but.text(topics[i]);
-        but.attr("class", "getGiphies");
-        but.appendTo("#button-field");
-    }
-    //clicking buttons will first clear all the images on the screen and then create the gifs
+//makes gifs
+function iMakeGifs() {
     $(".getGiphies").click(function () {
         var topic = $(this).attr("data-name");
         var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=8dYLVJpkKo8KZ82vGwoBwBaZe4AOMJGB&limit=10";
         //console.log(queryURL);
+        //clicking buttons will first clear all the images on the screen and then create the gifs
         $("#giphyField").empty();
         $.ajax({
             url: queryURL,
             method: "GET"
         }).then(function (response) {
-                console.log(response);
-                var results = response.data;
-                for (i = 0; i < results.length; i++) {
-                    //create 10 gifs with the url for stationary picture, url for gif, set the img source to stationary, set state to still, and give them all a common class for easy reference in other functions
-                    var gifs = $("<img>");
-                    gifs.attr("data-still", results[i].images.fixed_height_still.url);
-                    gifs.attr("data-moving", results[i].images.fixed_height.url);
-                    gifs.attr("src", results[i].images.fixed_height_still.url);
-                    gifs.attr("data-state", "still");
-                    gifs.attr("class", "pics");
-                    var rating = $("<p>").text("Rated: " + results[i].rating);
-                   
-                    //put gifs and ratings into individual divs (for css purposes) and put those divs in the giphyField section
-                    var gifBox = $("<div>").attr("id", topic+i);
-                    gifBox.addClass("gyfBox");
-                    gifBox.prepend(rating);
-                    gifBox.prepend(gifs);
-                    $("#giphyField").prepend(gifBox);
-                }
-        
+            console.log(response);
+            var results = response.data;
+            for (i = 0; i < results.length; i++) {
+                //create 10 gifs with the url for stationary picture, url for gif, set the img source to stationary, set state to still, and give them all a common class for easy reference in other functions
+                var gifs = $("<img>");
+                gifs.attr("data-still", results[i].images.fixed_height_still.url);
+                gifs.attr("data-moving", results[i].images.fixed_height.url);
+                gifs.attr("src", results[i].images.fixed_height_still.url);
+                gifs.attr("data-state", "still");
+                gifs.attr("class", "pics");
+                var rating = $("<p>").text("Rated: " + results[i].rating);
+
+                //put gifs and ratings into individual divs (for css purposes) and put those divs in the giphyField section
+                var gifBox = $("<div>").attr("id", topic + i);
+                gifBox.addClass("gyfBox");
+                gifBox.prepend(rating);
+                gifBox.prepend(gifs);
+                $("#giphyField").prepend(gifBox);
+            }
+
 
             $(".pics").click(function () {
                 var state = $(this).attr("data-state");
@@ -73,9 +65,32 @@ $(document).ready(function () {
             });
         });
     });
-    //get the search box to create a button which will then behave as the already populated button
-    $("#submit").click(function() {
-        var entry = $("#text").val().trim();
-        topics.push(entry);
-    });
+}
+
+$(document).ready(function () {
+
+//adds to search buttons
+$("#submit").click(function () {
+    event.preventDefault();
+    var entry = $("#text").val().trim();
+    topics.push(entry);
+    iMakeButtons();
+    $("#text").empty()
+});
+
+//create buttons from the topics array
+function iMakeButtons() {
+    $("#button-field").empty();
+    for (i = 0; i < topics.length; i++) {
+        var but = $("<button>")
+        but.attr("data-name", topics[i]);
+        but.text(topics[i]);
+        but.attr("class", "getGiphies");
+        but.appendTo("#button-field");
+    }
+}
+iMakeButtons();
+
+$(document).on("click", ".getGiphies", iMakeGifs)
+
 });
