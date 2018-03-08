@@ -1,28 +1,9 @@
-/* Pseudocode for giphy 
--create array of strings of topics that interest me
-    these will be the topics of the giphies
--determine the url that will need to be ajax into
--create a variable to change parts of the url to search each topic (loop)
--create a button for each topic that will bring up the giphies when clicked
-    -make button clear the screen before adding the next set of images
--ajax the url
--check the object created to determine the various properties that will be needed:
-    10 images
-    static, animated when clicked, static when clicked again
-        see if I can make it do this with mouseover instead
-    display rating
--create $ that will append the image and ratings to the screen
--create a form submission to add button and giphies
-*/
-
-var topics = ["hockey", "san jose sharks", "star wars", "ghostbusters", "dogs", "beer"];
+var topics = ["Arrested Development", "Game of Thrones", "Lord of the Rings", "Sean Bean deaths", "Gladiator", "Futurama", "Life Aquatic", "Firefly", "Rick and Morty", "Archer"];
 
 //makes gifs
 function iMakeGifs() {
-    //$(".getGiphies").click(function () {
         var topic = $(this).attr("data-name");
         var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=8dYLVJpkKo8KZ82vGwoBwBaZe4AOMJGB&limit=10";
-        //console.log(queryURL);
         //clicking buttons will first clear all the images on the screen and then create the gifs
         $("#giphyField").empty();
         $.ajax({
@@ -48,8 +29,6 @@ function iMakeGifs() {
                 gifBox.prepend(gifs);
                 $("#giphyField").prepend(gifBox);
             }
-
-
             $(".pics").click(function () {
                 var state = $(this).attr("data-state");
                 console.log("click");
@@ -64,7 +43,6 @@ function iMakeGifs() {
                 }
             });
         });
-    //});
 }
 
 $(document).ready(function () {
@@ -95,3 +73,20 @@ $(document).ready(function () {
     $(".getGiphies").on("click", iMakeGifs)
 
 });
+
+/* Pseudocode for giphy 
+-create array of strings of topics that interest me
+    these will be the topics of the giphies
+-determine the url that will need to be ajax into
+-create a variable to change parts of the url to search each topic (loop)
+-create a button for each topic that will bring up the giphies when clicked
+    -make button clear the screen before adding the next set of images
+-ajax the url
+-check the object created to determine the various properties that will be needed:
+    10 images
+    static, animated when clicked, static when clicked again
+        see if I can make it do this with mouseover instead
+    display rating
+-create $ that will append the image and ratings to the screen
+-create a form submission to add button and giphies
+*/
