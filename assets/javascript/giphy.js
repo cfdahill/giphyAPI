@@ -19,7 +19,7 @@ var topics = ["hockey", "san jose sharks", "star wars", "ghostbusters", "dogs", 
 
 //makes gifs
 function iMakeGifs() {
-    $(".getGiphies").click(function () {
+    //$(".getGiphies").click(function () {
         var topic = $(this).attr("data-name");
         var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=8dYLVJpkKo8KZ82vGwoBwBaZe4AOMJGB&limit=10";
         //console.log(queryURL);
@@ -64,33 +64,34 @@ function iMakeGifs() {
                 }
             });
         });
-    });
+    //});
 }
 
 $(document).ready(function () {
 
-//adds to search buttons
-$("#submit").click(function () {
-    event.preventDefault();
-    var entry = $("#text").val().trim();
-    topics.push(entry);
-    iMakeButtons();
-    $("#text").empty()
-});
+    //adds to search buttons
+    $("#submit").click(function () {
+        event.preventDefault();
+        var entry = $("#textBox").val().trim();
+        $("#textBox").val("");
+        topics.push(entry);
+        iMakeButtons();
+        $(".getGiphies").on("click", iMakeGifs)
+    });
 
-//create buttons from the topics array
-function iMakeButtons() {
-    $("#button-field").empty();
-    for (i = 0; i < topics.length; i++) {
-        var but = $("<button>")
-        but.attr("data-name", topics[i]);
-        but.text(topics[i]);
-        but.attr("class", "getGiphies");
-        but.appendTo("#button-field");
+    //create buttons from the topics array
+    function iMakeButtons() {
+        $("#button-field").empty();
+        for (i = 0; i < topics.length; i++) {
+            var but = $("<button>")
+            but.attr("data-name", topics[i]);
+            but.text(topics[i]);
+            but.attr("class", "getGiphies");
+            but.appendTo("#button-field");
+        }
     }
-}
-iMakeButtons();
+    iMakeButtons();
 
-$(document).on("click", ".getGiphies", iMakeGifs)
+    $(".getGiphies").on("click", iMakeGifs)
 
 });
