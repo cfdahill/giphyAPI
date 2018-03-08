@@ -1,9 +1,9 @@
 /* Pseudocode for giphy 
 -create array of strings of topics that interest me
     these will be the topics of the giphies
--determine the url that will need to be json into
+-determine the url that will need to be ajax into
 -create a variable to change parts of the url to search each topic (loop)
--create a button for each topic (same loop) that will bring up the giphies when clicked
+-create a button for each topic that will bring up the giphies when clicked
     -make button clear the screen before adding the next set of images
 -ajax the url
 -check the object created to determine the various properties that will be needed:
@@ -15,7 +15,7 @@
 -create a form submission to add button and giphies
 */
 
-var topics = ["hockey", "warcraft", "star wars", "ghostbusters", "dogs", "beer"];
+var topics = ["hockey", "san jose sharks", "star wars", "ghostbusters", "dogs", "beer"];
 
 $(document).ready(function () {
 
@@ -48,9 +48,13 @@ $(document).ready(function () {
                     gifs.attr("data-state", "still");
                     gifs.attr("class", "pics");
                     var rating = $("<p>").text("Rated: " + results[i].rating);
-                    $("#giphyField").prepend(rating);
-                    $("#giphyField").prepend(gifs);
-                    //console.log(results[i].images.fixed_height.url);
+                   
+                    //put gifs and ratings into individual divs (for css purposes) and put those divs in the giphyField section
+                    var gifBox = $("<div>").attr("id", topic+i);
+                    gifBox.addClass("gyfBox");
+                    gifBox.prepend(rating);
+                    gifBox.prepend(gifs);
+                    $("#giphyField").prepend(gifBox);
                 }
         
 
@@ -69,5 +73,9 @@ $(document).ready(function () {
             });
         });
     });
-
+    //get the search box to create a button which will then behave as the already populated button
+    $("#submit").click(function() {
+        var entry = $("#text").val().trim();
+        topics.push(entry);
+    });
 });
