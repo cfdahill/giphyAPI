@@ -3,7 +3,7 @@ var topics = ["Arrested Development", "Game of Thrones", "Lord of the Rings", "S
 //makes gifs
 function iMakeGifs() {
         var topic = $(this).attr("data-name");
-        var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=8dYLVJpkKo8KZ82vGwoBwBaZe4AOMJGB&limit=10";
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=8dYLVJpkKo8KZ82vGwoBwBaZe4AOMJGB&limit=10";
         //clicking buttons will first clear all the images on the screen and then create the gifs
         $("#giphyField").empty();
         $.ajax({
